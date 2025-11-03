@@ -1,0 +1,70 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: ex01
+      id: ex01
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ex01
+        setup-command: ''
+        command: g++ -o ex01 ex01.cpp
+        timeout: 10
+        max-score: 20
+    - name: ex02
+      id: ex02
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ex02
+        setup-command: ''
+        command: g++ -o ex02 ex02.cpp
+        timeout: 10
+        max-score: 20
+    - name: ex03
+      id: ex03
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ex03
+        setup-command: ''
+        command: g++ -o ex03 ex03.cpp
+        timeout: 10
+        max-score: 20
+    - name: ex04
+      id: ex04
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ex04
+        setup-command: ''
+        command: g++ -o ex04 ex04.cpp
+        timeout: 10
+        max-score: 20
+    - name: ex05
+      id: ex05
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: ex05
+        setup-command: ''
+        command: g++ -o ex05 ex05.cpp
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        EX01_RESULTS: "${{steps.ex01.outputs.result}}"
+        EX02_RESULTS: "${{steps.ex02.outputs.result}}"
+        EX03_RESULTS: "${{steps.ex03.outputs.result}}"
+        EX04_RESULTS: "${{steps.ex04.outputs.result}}"
+        EX05_RESULTS: "${{steps.ex05.outputs.result}}"
+      with:
+        runners: ex01,ex02,ex03,ex04,ex05
